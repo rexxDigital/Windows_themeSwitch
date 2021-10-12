@@ -10,15 +10,13 @@ const char* setTheme(DWORD val)
 {
     HKEY hKey;
 
-    LONG cResult = RegCreateKeyEx(HKEY_CURRENT_USER, KEYPATH, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL, &hKey, NULL);
-    if(cResult != ERROR_SUCCESS)
+    if(RegCreateKeyEx(HKEY_CURRENT_USER, KEYPATH, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL, &hKey, NULL) != ERROR_SUCCESS)
     {
         RegCloseKey (hKey);
         return "failed to find reg directory.";
     }
 
-    LONG oResult = RegOpenKeyEx(HKEY_CURRENT_USER, KEYPATH, 0, KEY_SET_VALUE, &hKey);
-    if(oResult != ERROR_SUCCESS)
+    if(RegOpenKeyEx(HKEY_CURRENT_USER, KEYPATH, 0, KEY_SET_VALUE, &hKey) != ERROR_SUCCESS)
     {
         RegCloseKey (hKey);
         return "failed to open reg directory.";
