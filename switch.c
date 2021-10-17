@@ -12,7 +12,7 @@ const char* KEYPATH = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Per
 const char* APPTHEME = "AppsUseLightTheme";
 const char* SYSTHEME = "SystemUsesLightTheme";
 
-const char* setTheme()
+void setTheme()
 {
     HKEY hKey;
     DWORD val;
@@ -32,7 +32,6 @@ const char* setTheme()
     RegSetValueEx(hKey, SYSTHEME, 0, REG_DWORD, (const BYTE*)&val, sizeof(val));
 
     RegCloseKey (hKey);
-    return "Something went wrong bud.";
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmdLine, int nCmdShow)
