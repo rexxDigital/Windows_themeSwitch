@@ -19,17 +19,8 @@ const char* setTheme()
     DWORD holder;
     DWORD buff = BUFFER;
 
-    if(RegCreateKeyEx(HKEY_CURRENT_USER, KEYPATH, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL, &hKey, NULL) != ERROR_SUCCESS)
-    {
-        RegCloseKey (hKey);
-        return "failed to find reg directory.";
-    }
-
-    if(RegOpenKeyEx(HKEY_CURRENT_USER, KEYPATH, 0, KEY_SET_VALUE, &hKey) != ERROR_SUCCESS)
-    {
-        RegCloseKey (hKey);
-        return "failed to open reg directory.";
-    }
+    RegCreateKeyEx(HKEY_CURRENT_USER, KEYPATH, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, NULL, &hKey, NULL);
+    RegOpenKeyEx(HKEY_CURRENT_USER, KEYPATH, 0, KEY_SET_VALUE, &hKey);
 
     RegGetValueA(HKEY_CURRENT_USER, KEYPATH, APPTHEME, RRF_RT_DWORD, NULL, (PVOID)&holder, &buff);
     if(holder == 0)
@@ -37,11 +28,8 @@ const char* setTheme()
     else 
         val = 0;
 
-    if(RegSetValueEx(hKey, APPTHEME, 0, REG_DWORD, (const BYTE*)&val, sizeof(val)) == ERROR_SUCCESS && RegSetValueEx(hKey, SYSTHEME, 0, REG_DWORD, (const BYTE*)&val, sizeof(val)) == ERROR_SUCCESS)
-    {
-        RegCloseKey (hKey);
-        return "Changed theme.";
-    }
+    RegSetValueEx(hKey, APPTHEME, 0, REG_DWORD, (const BYTE*)&val, sizeof(val));
+    RegSetValueEx(hKey, SYSTHEME, 0, REG_DWORD, (const BYTE*)&val, sizeof(val));
 
     RegCloseKey (hKey);
     return "Something went wrong bud.";
